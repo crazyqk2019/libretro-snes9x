@@ -150,7 +150,8 @@ struct retro_core_option_definition option_defs_chs[] = {
    {
       "snes9x_audio_interpolation",
       "音频插值",
-      "使用音频滤镜。'Gaussian'产生比原始硬件加强的低音效果。'Cubic'和'Sinc'精确度较低，但是保留更多高频。",
+      "使用音频滤镜。'Gaussian'产生比原始硬件加强的低音效果。\n"
+	  "'Cubic'和'Sinc'精确度较低，但是保留更多高频。",
       {
          { "gaussian", "Gaussian" },
          { "cubic",    "Cubic" },
