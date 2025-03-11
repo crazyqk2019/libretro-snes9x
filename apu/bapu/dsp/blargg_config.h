@@ -10,7 +10,7 @@
 #endif
 
 // Uncomment to enable platform-specific (and possibly non-portable) optimizations
-#if !defined(__CELLOS_LV2__)
+#if !defined(__PS3__) && !defined(__PSL1GHT__)
 #define BLARGG_NONPORTABLE 1
 #endif
 

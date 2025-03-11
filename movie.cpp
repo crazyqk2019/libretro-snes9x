@@ -434,7 +434,7 @@ static int read_movie_extrarominfo (FILE *fd, SMovie *movie)
 
 	ptr += 3; // zero bytes
 	movie->ROMCRC32 = Read32(ptr);
-	sstrncpy(movie->ROMName, (char *) ptr, 23);
+	memcpy(movie->ROMName, (char *) ptr, 23);
 
 	return (SUCCESS);
 }
@@ -740,7 +740,6 @@ int S9xMovieCreate (const char *filename, uint8 controllers_mask, uint8 opts, co
 	}
 
 	Movie.ROMCRC32 = Memory.ROMCRC32;
-	strncpy(Movie.ROMName, Memory.RawROMName, 23);
 
 	write_movie_extrarominfo(fd, &Movie);
 

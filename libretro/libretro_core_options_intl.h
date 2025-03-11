@@ -11,9 +11,10 @@
 
 /*
  ********************************
- * VERSION: 1.3
+ * VERSION: 2.0
  ********************************
  *
+ * - 2.0: Add support for core options v2 interface
  * - 1.3: Move translations to libretro_core_options_intl.h
  *        - libretro_core_options_intl.h includes BOM and utf-8
  *          fix for MSVC 2010-2013
@@ -747,663 +748,551 @@ struct retro_core_option_definition option_defs_chs[] = {
 
 /* RETRO_LANGUAGE_TURKISH */
 
-struct retro_core_option_definition option_defs_tr[] = {
+struct retro_core_option_v2_category option_cats_tr[] = {
+   {
+      "hacks",
+      NULL,
+      NULL
+   },
+   {
+      "lightgun",
+      NULL,
+      NULL
+   },
+   {
+      "advanced_av",
+      NULL,
+      NULL
+   },
+   { NULL, NULL, NULL },
+};
 
-   /* These variable names and possible values constitute an ABI with ZMZ (ZSNES Libretro player).
-    * Changing "Show layer 1" is fine, but don't change "layer_1"/etc or the possible values ("Yes|No").
-    * Adding more variables and rearranging them is safe. */
-      {
+struct retro_core_option_v2_definition option_defs_tr[] = {
+   {
       "snes9x_region",
       "Konsol Bölgesi (Core Yenilenir)",
+      NULL,
       "Sistemin hangi bölgeden olduğunu belirtir.. 'PAL' 50hz'dir, 'NTSC' ise 60hz. Yanlış bölge seçiliyse, oyunlar normalden daha hızlı veya daha yavaş çalışacaktır.",
+      NULL,
+      NULL,
       {
          { "auto", "Otomatik" },
          { "ntsc", "NTSC" },
          { "pal",  "PAL" },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "auto"
+      NULL
    },
    {
       "snes9x_aspect",
       "Tercih Edilen En Boy Oranı",
+      NULL,
       "Tercih edilen içerik en boy oranını seçin. Bu, yalnızca RetroArch’ın en boy oranı Video ayarlarında 'Core tarafından' olarak ayarlandığında uygulanacaktır.",
+      NULL,
+      NULL,
       {
          { "4:3",         NULL },
+         { "4:3 scaled",  "4:3 (Korunmuş)" },
          { "uncorrected", "Düzeltilmemiş" },
          { "auto",        "Otomatik" },
          { "ntsc",        "NTSC" },
          { "pal",         "PAL" },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "4:3"
+      NULL
    },
    {
       "snes9x_overscan",
       "Aşırı Taramayı Kırp",
-      "Ekranın üst ve alt kısmındaki ~8 piksel sınırlarını, tipik olarak standart çözünürlüklü bir televizyondakini kaldırır. 'Otomatik' ise geçerli içeriğe bağlı olarak aşırı taramayı algılamaya ve kırpmaya çalışacaktır.",
+      NULL,
+      "Ekranın üst ve alt kısmındaki sınırlarını, tipik olarak standart çözünürlüklü bir televizyondakini kaldırır. 'Otomatik (~8 piksel)' ise geçerli içeriğe bağlı olarak aşırı taramayı algılamaya ve kırpmaya çalışacaktır.",
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { "auto",     "Otomatik" },
-         { NULL, NULL},
+         { "enabled",      "~8 piksel" },
+         { "12_pixels",    "12 piksel" },
+         { "16_pixels",    "16 piksel" },
+         { "auto",         "Otomatik (~8 piksel)" },
+         { "disabled",     NULL },
+         { NULL, NULL },
       },
-      "enabled"
-   },
-   {
-      "snes9x_gfx_hires",
-      "Hi-Res Modunu Etkinleştir",
-      "Oyunların hi-res moduna (512x448) geçmesine izin verir veya tüm içeriği 256x224'te (ezilmiş piksellerle) çıkmaya zorlar.",
-      {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
-      },
-      "enabled"
+      NULL
    },
    {
       "snes9x_hires_blend",
       "Hi-Res Karışımı",
+      NULL,
       "Oyun hi-res moduna geçtiğinde pikselleri karıştırır (512x448). Şeffaflık efektleri üretmek için hi-res modunu kullanan bazı oyunlar için gereklidir (Kirby's Dream Land, Jurassic Park ...).",
+      NULL,
+      NULL,
       {
          { "disabled", NULL },
          { "merge",    "Birlşetir" },
          { "blur",     "Bulanıklaştır" },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "disabled"
+      NULL
    },
    {
       "snes9x_blargg",
       "Blargg NTSC Filtresi",
+      NULL,
       "Çeşitli NTSC TV sinyallerini taklit etmek için bir video filtresi uygular.",
+      NULL,
+      NULL,
       {
-         { "disabled",   NULL },
-         { "monochrome", "Monochrome" },
-         { "rf",         "RF" },
-         { "composite",  "Composite" },
-         { "s-video",    "S-Video" },
-         { "rgb",        "RGB" },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "disabled"
+      NULL
    },
    {
       "snes9x_audio_interpolation",
       "Ses Enterpolasyonu",
+      NULL,
       "Belirtilen ses filtresini uygular. 'Gaussian', orijinal donanımın bas ağırlıklı sesini üretir. 'Cubic' ve 'Sinc' daha az doğrudur ve daha fazla aralığı korur.",
+      NULL,
+      NULL,
       {
          { "gaussian", "Gaussian" },
          { "cubic",    "Cubic" },
          { "sinc",     "Sinc" },
          { "none",     "Hiçbiri" },
          { "linear",   "Linear" },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "gaussian"
+      NULL
    },
    {
       "snes9x_up_down_allowed",
       "Karşı Yönlere İzin Ver",
+      NULL,
       "Bunu etkinleştirmek aynı anda hem sola hem de sağa (veya yukarı ve aşağı) yönlere basma / hızlı değiştirme / tutma imkanı sağlar. Bu harekete dayalı hatalara neden olabilir.",
+      NULL,
+      NULL,
       {
-         { "disabled", NULL },
-         { "enabled",  NULL },
          { NULL, NULL },
       },
-      "disabled"
+      NULL
    },
    {
       "snes9x_overclock_superfx",
       "SuperFX Hız Aşırtma",
+      NULL,
       "SuperFX işlemcisi frekans çarpanıdır. Kare hızını artırabilir veya zamanlama hatalarına neden olabilir. % 100'ün altındaki değerler yavaş cihazlarda oyun performansını artırabilir.",
+      NULL,
+      NULL,
       {
-         { "50%",  NULL },
-         { "60%",  NULL },
-         { "70%",  NULL },
-         { "80%",  NULL },
-         { "90%",  NULL },
-         { "100%", NULL },
-         { "150%", NULL },
-         { "200%", NULL },
-         { "250%", NULL },
-         { "300%", NULL },
-         { "350%", NULL },
-         { "400%", NULL },
-         { "450%", NULL },
-         { "500%", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "100%"
+      NULL
    },
    {
       "snes9x_overclock_cycles",
       "Yavaşlamayı Azalt (Hack, Güvensiz)",
+      "Yavaşlamayı Azalt (Güvensiz)",
       "SNES İşlemcisi için hız aşırtmadır. Oyunların çökmesine neden olabilir! Daha kısa yükleme süreleri için 'Hafif'i, yavaşlama gösteren oyunların çoğunda' Uyumlu 've yalnızca kesinlikle gerekliyse' Maks 'kullanın (Gradius 3, Süper R tipi ...).",
+      NULL,
+      NULL,
       {
          { "disabled",   NULL },
          { "light",      "Hafif" },
          { "compatible", "Uyumlu" },
          { "max",        "Maks" },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "disabled"
+      NULL
    },
    {
       "snes9x_reduce_sprite_flicker",
       "Kırılmayı Azalt (Hack, Güvensiz)",
+      "Kırılmayı Azalt (Güvensiz)",
       "Ekranda aynı anda çizilebilen sprite sayısını arttırır.",
+      NULL,
+      NULL,
       {
-         { "disabled", NULL },
-         { "enabled",  NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "disabled"
+      NULL
    },
    {
       "snes9x_randomize_memory",
       "Belleği Rastgele Kıl (Güvensiz)",
+      NULL,
       "Başlatıldığında sistem RAM'ını rastgele ayarlar. 'Super Off Road' gibi bazı oyunlar, oyunu daha öngörülemeyen hale getirmek için öğe yerleştirme ve AI davranışı için rastgele sayı üreticisi olarak sistem RAM'ini kullanır.",
+      NULL,
+      NULL,
       {
-         { "disabled", NULL },
-         { "enabled",  NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "disabled"
+      NULL
    },
    {
       "snes9x_block_invalid_vram_access",
       "Geçersiz VRAM Erişimini Engelle",
+      NULL,
       "Bazı Homebrew/ROM'lar, doğru işlem için bu seçeneğin devre dışı bırakılmasını gerektirir.",
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "enabled"
+      NULL
    },
    {
       "snes9x_echo_buffer_hack",
       "Eko Tampon Hack (Güvenli değil, yalnızca eski addmusic için etkinleştirin)",
+      NULL,
       "Bazı Homebrew/ROM'lar, doğru işlem için bu seçeneğin devre dışı bırakılmasını gerektirir.",
+      NULL,
+      NULL,
       {
-         { "disabled", NULL },
-         { "enabled",  NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "disabled"
+      NULL
    },
    {
       "snes9x_show_lightgun_settings",
       "Light Gun Ayarlarını Göster",
+      NULL,
       "Super Scope / Justifier / M.A.C.S. için tüfek girişi yapılandırmasını etkinleştir. NOT: Bu ayarın etkili olabilmesi için Hızlı Menü’nün açılması gerekir.",
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "disabled"
+      NULL
    },
    {
       "snes9x_lightgun_mode",
       "Light Gun Modu",
+      "Modu",
       "Fare kontrollü 'Light Gun' veya 'Dokunmatik Ekran' girişini kullanın.",
+      NULL,
+      NULL,
       {
          { "Lightgun",    "Light Gun" },
          { "Touchscreen", "Dokunmatik Ekran" },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "Lightgun"
+      NULL
    },
    {
       "snes9x_superscope_reverse_buttons",
       "Super Scope Ters Tetik Düğmeleri",
+      NULL,
       "Süper Scope için 'Ateş' ve 'İmleç' butonlarının pozisyonlarını değiştir.",
+      NULL,
+      NULL,
       {
-         { "disabled", NULL },
-         { "enabled",  NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "disabled"
+      NULL
    },
    {
       "snes9x_superscope_crosshair",
       "Super Scope İmkeç",
+      NULL,
       "Ekrandaki imleç işaretini değiştirin.",
+      NULL,
+      NULL,
       {
-         { "0",  NULL },
-         { "1",  NULL },
-         { "2",  NULL },
-         { "3",  NULL },
-         { "4",  NULL },
-         { "5",  NULL },
-         { "6",  NULL },
-         { "7",  NULL },
-         { "8",  NULL },
-         { "9",  NULL },
-         { "10", NULL },
-         { "11", NULL },
-         { "12", NULL },
-         { "13", NULL },
-         { "14", NULL },
-         { "15", NULL },
-         { "16", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "2"
+      NULL
    },
    {
       "snes9x_superscope_color",
       "Super Scope Rengi",
+      NULL,
       "Ekrandaki imleç işaretinin rengini değiştirin.",
+      NULL,
+      NULL,
       {
-         { "White",            NULL },
-         { "White (blend)",    NULL },
-         { "Red",              NULL },
-         { "Red (blend)",      NULL },
-         { "Orange",           NULL },
-         { "Orange (blend)",   NULL },
-         { "Yellow",           NULL },
-         { "Yellow (blend)",   NULL },
-         { "Green",            NULL },
-         { "Green (blend)",    NULL },
-         { "Cyan",             NULL },
-         { "Cyan (blend)",     NULL },
-         { "Sky",              NULL },
-         { "Sky (blend)",      NULL },
-         { "Blue",             NULL },
-         { "Blue (blend)",     NULL },
-         { "Violet",           NULL },
-         { "Violet (blend)",   NULL },
-         { "Pink",             NULL },
-         { "Pink (blend)",     NULL },
-         { "Purple",           NULL },
-         { "Purple (blend)",   NULL },
-         { "Black",            NULL },
-         { "Black (blend)",    NULL },
-         { "25% Grey",         NULL },
-         { "25% Grey (blend)", NULL },
-         { "50% Grey",         NULL },
-         { "50% Grey (blend)", NULL },
-         { "75% Grey",         NULL },
-         { "75% Grey (blend)", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "White"
+      NULL
    },
    {
       "snes9x_justifier1_crosshair",
       "Justifier 1 İmleci",
+      NULL,
       "Ekrandaki imleç işaretinin boyutunu değiştirin.",
+      NULL,
+      NULL,
       {
-         { "0",  NULL },
-         { "1",  NULL },
-         { "2",  NULL },
-         { "3",  NULL },
-         { "4",  NULL },
-         { "5",  NULL },
-         { "6",  NULL },
-         { "7",  NULL },
-         { "8",  NULL },
-         { "9",  NULL },
-         { "10", NULL },
-         { "11", NULL },
-         { "12", NULL },
-         { "13", NULL },
-         { "14", NULL },
-         { "15", NULL },
-         { "16", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "4"
+      NULL
    },
    {
       "snes9x_justifier1_color",
       "Justifier 1 Rengi",
+      NULL,
       "Ekrandaki imleç işaretinin rengini değiştirin.",
+      NULL,
+      NULL,
       {
-         { "Blue",             NULL },
-         { "Blue (blend)",     NULL },
-         { "Violet",           NULL },
-         { "Violet (blend)",   NULL },
-         { "Pink",             NULL },
-         { "Pink (blend)",     NULL },
-         { "Purple",           NULL },
-         { "Purple (blend)",   NULL },
-         { "Black",            NULL },
-         { "Black (blend)",    NULL },
-         { "25% Grey",         NULL },
-         { "25% Grey (blend)", NULL },
-         { "50% Grey",         NULL },
-         { "50% Grey (blend)", NULL },
-         { "75% Grey",         NULL },
-         { "75% Grey (blend)", NULL },
-         { "White",            NULL },
-         { "White (blend)",    NULL },
-         { "Red",              NULL },
-         { "Red (blend)",      NULL },
-         { "Orange",           NULL },
-         { "Orange (blend)",   NULL },
-         { "Yellow",           NULL },
-         { "Yellow (blend)",   NULL },
-         { "Green",            NULL },
-         { "Green (blend)",    NULL },
-         { "Cyan",             NULL },
-         { "Cyan (blend)",     NULL },
-         { "Sky",              NULL },
-         { "Sky (blend)",      NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "Blue"
+      NULL
    },
    {
       "snes9x_justifier2_crosshair",
       "Justifier 2 İmleci",
+      NULL,
       "Ekrandaki imleç işaretinin boyutunu değiştirin.",
+      NULL,
+      NULL,
       {
-         { "0",  NULL },
-         { "1",  NULL },
-         { "2",  NULL },
-         { "3",  NULL },
-         { "4",  NULL },
-         { "5",  NULL },
-         { "6",  NULL },
-         { "7",  NULL },
-         { "8",  NULL },
-         { "9",  NULL },
-         { "10", NULL },
-         { "11", NULL },
-         { "12", NULL },
-         { "13", NULL },
-         { "14", NULL },
-         { "15", NULL },
-         { "16", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "4"
+      NULL
    },
    {
       "snes9x_justifier2_color",
       "Justifier 2 REngi",
+      NULL,
       "Ekrandaki imleç işaretinin rengini değiştirin.",
+      NULL,
+      NULL,
       {
-         { "Pink",             NULL },
-         { "Pink (blend)",     NULL },
-         { "Purple",           NULL },
-         { "Purple (blend)",   NULL },
-         { "Black",            NULL },
-         { "Black (blend)",    NULL },
-         { "25% Grey",         NULL },
-         { "25% Grey (blend)", NULL },
-         { "50% Grey",         NULL },
-         { "50% Grey (blend)", NULL },
-         { "75% Grey",         NULL },
-         { "75% Grey (blend)", NULL },
-         { "White",            NULL },
-         { "White (blend)",    NULL },
-         { "Red",              NULL },
-         { "Red (blend)",      NULL },
-         { "Orange",           NULL },
-         { "Orange (blend)",   NULL },
-         { "Yellow",           NULL },
-         { "Yellow (blend)",   NULL },
-         { "Green",            NULL },
-         { "Green (blend)",    NULL },
-         { "Cyan",             NULL },
-         { "Cyan (blend)",     NULL },
-         { "Sky",              NULL },
-         { "Sky (blend)",      NULL },
-         { "Blue",             NULL },
-         { "Blue (blend)",     NULL },
-         { "Violet",           NULL },
-         { "Violet (blend)",   NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "Pink"
+      NULL
    },
    {
       "snes9x_rifle_crosshair",
       "M.A.C.S. Tüfek ",
+      NULL,
       "Ekrandaki imleç işaretinin rengini değiştirin..",
+      NULL,
+      NULL,
       {
-         { "0",  NULL },
-         { "1",  NULL },
-         { "2",  NULL },
-         { "3",  NULL },
-         { "4",  NULL },
-         { "5",  NULL },
-         { "6",  NULL },
-         { "7",  NULL },
-         { "8",  NULL },
-         { "9",  NULL },
-         { "10", NULL },
-         { "11", NULL },
-         { "12", NULL },
-         { "13", NULL },
-         { "14", NULL },
-         { "15", NULL },
-         { "16", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "2"
+      NULL
    },
    {
       "snes9x_rifle_color",
       "M.A.C.S. Tüfek Rengi",
+      NULL,
       "Ekrandaki imleç işaretinin rengini değiştirin.",
+      NULL,
+      NULL,
       {
-         { "White",            NULL },
-         { "White (blend)",    NULL },
-         { "Red",              NULL },
-         { "Red (blend)",      NULL },
-         { "Orange",           NULL },
-         { "Orange (blend)",   NULL },
-         { "Yellow",           NULL },
-         { "Yellow (blend)",   NULL },
-         { "Green",            NULL },
-         { "Green (blend)",    NULL },
-         { "Cyan",             NULL },
-         { "Cyan (blend)",     NULL },
-         { "Sky",              NULL },
-         { "Sky (blend)",      NULL },
-         { "Blue",             NULL },
-         { "Blue (blend)",     NULL },
-         { "Violet",           NULL },
-         { "Violet (blend)",   NULL },
-         { "Pink",             NULL },
-         { "Pink (blend)",     NULL },
-         { "Purple",           NULL },
-         { "Purple (blend)",   NULL },
-         { "Black",            NULL },
-         { "Black (blend)",    NULL },
-         { "25% Grey",         NULL },
-         { "25% Grey (blend)", NULL },
-         { "50% Grey",         NULL },
-         { "50% Grey (blend)", NULL },
-         { "75% Grey",         NULL },
-         { "75% Grey (blend)", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "White"
+      NULL
    },
    {
       "snes9x_show_advanced_av_settings",
       "Gelişmiş Ses/Video Ayarlarını Göster",
+      NULL,
       "Düşük seviye video katmanı / GFX etkisi / ses kanalı parametrelerinin yapılandırılmasını etkinleştirir. NOT: Bu ayarın etkili olabilmesi için Hızlı Menü’nün açılması gerekir.",
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "disabled"
+      NULL
    },
    {
       "snes9x_layer_1",
       "1. Katmanı Göster",
       NULL,
+      NULL,
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "enabled"
+      NULL
    },
    {
       "snes9x_layer_2",
       "2. Katmanı Göster",
       NULL,
+      NULL,
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "enabled"
+      NULL
    },
    {
       "snes9x_layer_3",
       "3. Katmanı Göster",
       NULL,
+      NULL,
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
+        { NULL, NULL },
       },
-      "enabled"
+      NULL
    },
    {
       "snes9x_layer_4",
       "4. Katmanı Göster",
       NULL,
+      NULL,
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "enabled"
+      NULL
    },
    {
       "snes9x_layer_5",
       "Sprite Katmanını Göster",
       NULL,
+      NULL,
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "enabled"
+      NULL
    },
    {
       "snes9x_gfx_clip",
       "Grafik Klibi Pencerelerini Etkinleştir",
       NULL,
+      NULL,
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "enabled"
+      NULL
    },
    {
       "snes9x_gfx_transp",
       "Saydamlık Efektlerini Etkinleştir",
       NULL,
+      NULL,
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "enabled"
+      NULL
    },
    {
       "snes9x_sndchan_1",
       "Ses Kanalı 1'i etkinleştir",
       NULL,
+      NULL,
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "enabled"
+      NULL
    },
    {
       "snes9x_sndchan_2",
       "Ses Kanalı 2'yi etkinleştir",
       NULL,
+      NULL,
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "enabled"
+      NULL
    },
    {
       "snes9x_sndchan_3",
       "Ses Kanalı 3'ü etkinleştir",
       NULL,
+      NULL,
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "enabled"
+      NULL
    },
    {
       "snes9x_sndchan_4",
       "Ses Kanalı 4'ü etkinleştir",
       NULL,
+      NULL,
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "enabled"
+      NULL
    },
    {
       "snes9x_sndchan_5",
       "Ses Kanalı 5'i etkinleştir",
       NULL,
+      NULL,
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "enabled"
+      NULL
    },
    {
       "snes9x_sndchan_6",
       "Ses Kanalı 6'yı etkinleştir",
       NULL,
+      NULL,
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "enabled"
+      NULL
    },
    {
       "snes9x_sndchan_7",
       "Ses Kanalı 7'yi etkinleştir",
       NULL,
+      NULL,
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "enabled"
+      NULL
    },
    {
       "snes9x_sndchan_8",
       "Ses Kanalı 8'i etkinleştir",
       NULL,
+      NULL,
+      NULL,
+      NULL,
       {
-         { "enabled",  NULL },
-         { "disabled", NULL },
-         { NULL, NULL},
+         { NULL, NULL },
       },
-      "enabled"
+      NULL
    },
-   { NULL, NULL, NULL, {{0}}, NULL },
+   { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
 };
+
+struct retro_core_options_v2 options_tr = {
+   option_cats_tr,
+   option_defs_tr
+};
+
+/* RETRO_LANGUAGE_SLOVAK */
+
+/* RETRO_LANGUAGE_PERSIAN */
+
+/* RETRO_LANGUAGE_HEBREW */
+
+/* RETRO_LANGUAGE_ASTURIAN */
+
+/* RETRO_LANGUAGE_FINNISH */
 
 #ifdef __cplusplus
 }

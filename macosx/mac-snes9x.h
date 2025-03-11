@@ -15,6 +15,7 @@
   (c) Copyright 2004         Alexander and Sander
   (c) Copyright 2004 - 2005  Steven Seeger
   (c) Copyright 2005         Ryan Vogt
+  (c) Copyright 2019         Michael Donald Buckley
  ***********************************************************************************/
 
 
@@ -58,8 +59,8 @@ void SNES9X_Reset (void);
 void SNES9X_SoftReset (void);
 void SNES9X_Quit (void);
 void SNES9X_InitSound (void);
-bool8 SNES9X_OpenCart (FSRef *);
-bool8 SNES9X_OpenMultiCart (void);
+bool8 SNES9X_OpenCart (NSURL *);
+bool8 SNES9X_OpenMultiCart (NSURL *cart1FileURL, NSURL *cart2FileURL);
 bool8 SNES9X_Freeze (void);
 bool8 SNES9X_FreezeTo (void);
 bool8 SNES9X_Defrost (void);

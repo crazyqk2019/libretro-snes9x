@@ -7,18 +7,13 @@
 #ifndef __GTK_CONFIG_H
 #define __GTK_CONFIG_H
 
-#include <X11/Xlib.h>
-#include <X11/extensions/Xrandr.h>
-#include <string>
-
 #include "gtk_control.h"
 #include "filter/snes_ntsc.h"
 
-enum {
-    HWA_NONE = 0,
-    HWA_OPENGL = 1,
-    HWA_XV = 2
-};
+#include <X11/Xlib.h>
+#include <X11/extensions/Xrandr.h>
+#include <string>
+#include <array>
 
 enum {
     HIRES_MERGE = 0,
@@ -44,20 +39,20 @@ enum {
     SPLASH_IMAGE_SMTPE = 1,
     SPLASH_IMAGE_PATTERN = 2,
     SPLASH_IMAGE_BLUE = 3,
-    SPLASH_IMAGE_COMBO = 4
+    SPLASH_IMAGE_COMBO = 4,
+    SPLASH_IMAGE_STARFIELD = 5,
+    SPLASH_IMAGE_SNOW = 6
 };
 
 class Snes9xConfig
 {
   public:
-    Snes9xConfig ();
-    int load_config_file ();
-    int save_config_file ();
-    int load_defaults ();
-    void rebind_keys ();
-    void flush_joysticks ();
-    void set_joystick_mode (int mode);
-    void joystick_register_centers ();
+    Snes9xConfig();
+    ~Snes9xConfig();
+    int load_config_file();
+    int save_config_file();
+    int load_defaults();
+    void rebind_keys();
 
     /* Screen options */
     bool full_screen_on_open;
@@ -76,6 +71,8 @@ class Snes9xConfig
     int hires_effect;
     bool force_inverted_byte_order;
     int splash_image;
+    bool auto_vrr;
+    int osd_size;
 
     snes_ntsc_setup_t ntsc_setup;
     int ntsc_format;
@@ -92,7 +89,7 @@ class Snes9xConfig
     float ntsc_merge_fields;
     int ntsc_scanline_intensity;
     int scanline_filter_intensity;
-    int hw_accel;
+    std::string display_driver;
     bool allow_opengl;
     bool allow_xv;
     bool allow_xrandr;
@@ -108,8 +105,8 @@ class Snes9xConfig
     std::string last_shader_directory;
 
     /* Controls */
-    JoypadBinding pad[NUM_JOYPADS];
-    Binding       shortcut[NUM_EMU_LINKS];
+    std::array<JoypadBinding, NUM_JOYPADS> pad;
+    std::array<Binding, NUM_EMU_LINKS> shortcut;
 
     /* Netplay */
     bool netplay_is_server;
@@ -124,6 +121,8 @@ class Snes9xConfig
     bool netplay_server_up;
 
     /* Operational */
+    std::vector<std::string> sound_drivers;
+    std::vector<std::string> display_drivers;
     int sound_driver;
     bool mute_sound;
     bool mute_sound_turbo;
@@ -153,22 +152,16 @@ class Snes9xConfig
     XRRScreenResources *xrr_screen_resources;
     XRRCrtcInfo *xrr_crtc_info;
 
-#ifdef USE_OPENGL
     bool sync_to_vblank;
-    bool use_pbos;
-    int pbo_format;
-    bool npot_textures;
     bool use_shaders;
     std::string shader_filename;
-    bool use_glfinish;
-    bool use_sync_control;
-#endif
+    bool reduce_input_lag;
 
-    JoyDevice **joystick;
+    JoyDevices joysticks;
     int joystick_threshold;
 };
 
-std::string get_config_dir ();
-std::string get_config_file_name ();
+std::string get_config_dir();
+std::string get_config_file_name();
 
 #endif /* __GTK_CONFIG_H */

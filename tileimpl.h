@@ -481,6 +481,8 @@ namespace TileImpl {
 
 			GFX.RealScreenColors = IPPU.ScreenColors;
 			GFX.ScreenColors = GFX.ClipColors ? BlackColourMap : GFX.RealScreenColors;
+			if (Settings.ForcedBackdrop)
+				GFX.ScreenColors = &Settings.ForcedBackdrop;
 
 			OFFSET_IN_LINE;
 			for (l = GFX.StartY; l <= GFX.EndY; l++, Offset += GFX.PPL)
@@ -792,7 +794,6 @@ namespace TileImpl {
 	struct DrawMode7MosaicBG1 : public DrawTileMosaic<PIXEL, DrawMode7BG1_OP> {};
 	template<class PIXEL>
 	struct DrawMode7MosaicBG2 : public DrawTileMosaic<PIXEL, DrawMode7BG2_OP> {};
-
 
 	#undef DRAW_PIXEL
 

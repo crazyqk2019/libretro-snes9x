@@ -445,7 +445,7 @@ bool IsReserved (WORD Key, int modifiers)
 	|| modifiers == CUSTKEY_ALT_MASK
 	 && (Key == VK_F5 || Key == VK_F7 || Key == VK_F8 || Key == VK_F9
 	  || Key == 'R' || Key == 'T' || Key == /*VK_OEM_4*/0xDB || Key == /*VK_OEM_6*/0xDD
-	  || Key == 'E' || Key == 'A' || Key == VK_RETURN || Key == VK_DELETE))
+	  || Key == 'E' || Key == VK_RETURN || Key == VK_DELETE))
 		return true;
 
 	return false;
@@ -488,16 +488,15 @@ int GetNumHotKeysAssignedTo (WORD Key, int modifiers)
 		if(MATCHES_KEY(SlotMinus))         count++;
 		if(MATCHES_KEY(SlotSave))          count++;
 		if(MATCHES_KEY(SlotLoad))          count++;
+        if(MATCHES_KEY(DialogSave))        count++;
+        if(MATCHES_KEY(DialogLoad))        count++;
 		if(MATCHES_KEY(BGL1))              count++;
 		if(MATCHES_KEY(BGL2))              count++;
 		if(MATCHES_KEY(BGL3))              count++;
 		if(MATCHES_KEY(BGL4))              count++;
 		if(MATCHES_KEY(BGL5))              count++;
 		if(MATCHES_KEY(ClippingWindows))   count++;
-//		if(MATCHES_KEY(BGLHack))           count++;
 		if(MATCHES_KEY(Transparency))      count++;
-//		if(MATCHES_KEY(GLCube))            count++;
-//		if(MATCHES_KEY(InterpMode7))       count++;
 		if(MATCHES_KEY(JoypadSwap))        count++;
 		if(MATCHES_KEY(SwitchControllers)) count++;
 		if(MATCHES_KEY(TurboA))            count++;
@@ -519,6 +518,7 @@ int GetNumHotKeysAssignedTo (WORD Key, int modifiers)
         if(MATCHES_KEY(SaveFileSelect))    count++;
         if(MATCHES_KEY(LoadFileSelect))    count++;
         if(MATCHES_KEY(Mute))              count++;
+		if(MATCHES_KEY(ToggleBackdrop))    count++;
 
 		#undef MATCHES_KEY
 	}

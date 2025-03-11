@@ -13,7 +13,7 @@
 #define SNAPSHOT_VERSION_IRQ		7
 #define SNAPSHOT_VERSION_BAPU		8
 #define SNAPSHOT_VERSION_IRQ_2018	11		// irq changes were introduced earlier, since this we store NextIRQTimer directly
-#define SNAPSHOT_VERSION			11
+#define SNAPSHOT_VERSION			12
 
 #define SUCCESS					1
 #define WRONG_FORMAT			(-1)
@@ -31,5 +31,7 @@ bool8 S9xUnfreezeGame (const char *);
 int S9xUnfreezeGameMem (const uint8 *,uint32);
 void S9xFreezeToStream (STREAM);
 int	 S9xUnfreezeFromStream (STREAM);
+bool8 S9xUnfreezeScreenshot(const char *filename, uint16 **image_buffer, int &width, int &height);
+int S9xUnfreezeScreenshotFromStream(STREAM stream, uint16 **image_buffer, int &width, int &height);
 
 #endif

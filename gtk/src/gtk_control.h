@@ -8,6 +8,7 @@
 #define __GTK_CONTROL_H
 
 #include <queue>
+#include <array>
 
 #include "gtk_binding.h"
 #include "SDL.h"
@@ -17,21 +18,18 @@
 
 const int NUM_JOYPADS = 10;
 
-enum
-{
+enum {
     JOY_MODE_GLOBAL     = 0,
     JOY_MODE_INDIVIDUAL = 1,
     JOY_MODE_CALIBRATE  = 2
 };
 
-enum
-{
+enum {
     JOY_RELEASED = 0,
     JOY_PRESSED  = 1
 };
 
-enum
-{
+enum {
     PORT_COMMAND_FULLSCREEN = 1,
     PORT_COMMAND_SAVE_SPC   = 2,
     PORT_OPEN_ROM           = 3,
@@ -69,15 +67,15 @@ typedef struct BindingLink
 extern const BindingLink b_links[];
 extern const int b_breaks[];
 const int NUM_JOYPAD_LINKS = 24;
-const int NUM_EMU_LINKS    = 62;
+const int NUM_EMU_LINKS = 62;
 
 typedef struct JoypadBinding
 {
-    Binding data[NUM_JOYPAD_LINKS]; /* Avoid packing issues */
+    std::array<Binding, NUM_JOYPAD_LINKS> data;
 } JoypadBinding;
 
-bool S9xGrabJoysticks ();
-void S9xReleaseJoysticks ();
+bool S9xGrabJoysticks();
+void S9xReleaseJoysticks();
 
 typedef struct JoyEvent
 {
@@ -96,31 +94,51 @@ typedef struct Calibration
 class JoyDevice
 {
   public:
-    JoyDevice (unsigned int device_num);
-    ~JoyDevice ();
-    int get_event (JoyEvent *event);
-    void flush ();
-    void handle_event (SDL_Event *event);
-    void register_centers ();
+    JoyDevice();
+    ~JoyDevice();
+    int get_event(JoyEvent *event);
+    void flush();
+    void handle_event(SDL_Event *event);
+    void register_centers();
+    bool set_sdl_joystick(unsigned int device_index, int slot);
+    static void poll_joystick_events();
 
-    SDL_Joystick         *filedes;
-    Calibration          *calibration;
+    std::string description;
+    SDL_Joystick *filedes;
+    SDL_JoystickID instance_id;
     std::queue<JoyEvent> queue;
-    int                  mode;
-    int                  joynum;
-    int                  num_axes;
-    int                  num_hats;
-    int                  *axis;
-    int                  *hat;
-    bool                 enabled;
+    int mode;
+    int joynum;
+    std::vector<Calibration> calibration;
+    std::vector<int> axis;
+    std::vector<int> hat;
+    bool enabled;
 
   private:
-    void poll_events ();
-    void add_event (unsigned int parameter, unsigned int state);
+    void add_event(unsigned int parameter, unsigned int state);
 };
 
-void S9xDeinitInputDevices ();
-Binding S9xGetBindingByName (const char *name);
-bool S9xIsMousePluggedIn ();
+class JoyDevices
+{
+    public:
+        void clear();
+        bool add(int sdl_device_index);
+        bool remove(SDL_JoystickID instance_id);
+        void register_centers();
+        void flush_events();
+        void set_mode(int mode);
+
+        void poll_events();
+        std::map<SDL_JoystickID, std::unique_ptr<JoyDevice>>::const_iterator begin() const { return joysticks.begin(); }
+        std::map<SDL_JoystickID, std::unique_ptr<JoyDevice>>::const_iterator end() const { return joysticks.end(); }
+
+    private:
+        JoyDevice *get_joystick(SDL_JoystickID instance_id);
+        std::map<SDL_JoystickID, std::unique_ptr<JoyDevice>> joysticks;
+};
+
+void S9xDeinitInputDevices();
+Binding S9xGetBindingByName(const char *name);
+bool S9xIsMousePluggedIn();
 
 #endif /* __GTK_CONTROL_H*/

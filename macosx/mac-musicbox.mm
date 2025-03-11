@@ -15,6 +15,7 @@
   (c) Copyright 2004         Alexander and Sander
   (c) Copyright 2004 - 2005  Steven Seeger
   (c) Copyright 2005         Ryan Vogt
+  (c) Copyright 2019         Michael Donald Buckley
  ***********************************************************************************/
 
 
@@ -58,13 +59,12 @@ static void * SoundTask (void *);
 	NSRect			rect;
 	NSSize			size;
 	BOOL			apuonly, r;
-	char			drive[_MAX_DRIVE + 1], dir[_MAX_DIR + 1], fname[_MAX_FNAME + 1], ext[_MAX_EXT + 1];
 
 	self = [super init];
 	if (!self)
 		return (self);
 
-	r = [NSBundle loadNibNamed: @"musicbox" owner: self];
+	r = [NSBundle loadNibNamed: @"musicbox" owner: self ];
 	if (!r)
 		return (self);
 
@@ -75,8 +75,8 @@ static void * SoundTask (void *);
 	else
 		MusicBoxForceFreeze();
 
-	_splitpath(Memory.ROMFilename, drive, dir, fname, ext);
-	[gametitle setStringValue: [NSString stringWithUTF8String: fname]];
+	auto path = splitpath(Memory.ROMFilename);
+	[gametitle setStringValue: [NSString stringWithUTF8String: path.stem.c_str()]];
 
 	[led setImage: [NSImage imageNamed: (apuonly ? @"musicbox_ledoff.icns" : @"musicbox_ledon.icns")]];
 
@@ -122,8 +122,8 @@ static void * SoundTask (void *);
 	MacStartSound();
 	pthread_create(&mbxThread, NULL, SoundTask, NULL);
 
-	timer = [[NSTimer scheduledTimerWithTimeInterval: (2.0 / (double) Memory.ROMFramesPerSecond) target: self selector: @selector(updateIndicator:) userInfo: nil repeats: YES] retain];
-
+	timer = [NSTimer scheduledTimerWithTimeInterval: (2.0 / (double) Memory.ROMFramesPerSecond) target: self selector: @selector(updateIndicator:) userInfo: nil repeats: YES];
+//
 	return (self);
 }
 
@@ -134,7 +134,7 @@ static void * SoundTask (void *);
 	BOOL			r;
 
 	[timer invalidate];
-	[timer release];
+    timer = nil;
 
 	showIndicator = false;
 
@@ -159,10 +159,6 @@ static void * SoundTask (void *);
 		SPCPlayDefrost();
 	else
 		MusicBoxForceDefrost();
-
-	[window release];
-
-	[super dealloc];
 }
 
 - (NSWindow *) window
@@ -268,7 +264,7 @@ static void * SoundTask (void *);
 	const float	length[] = { 1.0f, 1.0f };
 
 	CGContextSetLineWidth(mboxctx, mbxBarWidth);
-	CGContextSetLineDash(mboxctx, 0, length, 2);
+	//CGContextSetLineDash(mboxctx, 0, length, 2);
 	CGContextSetLineJoin(mboxctx, kCGLineJoinMiter);
 
 	CGContextBeginPath(mboxctx);
@@ -417,20 +413,20 @@ static void SPCPlayExec (void)
 
 static void MusicBoxForceFreeze (void)
 {
-	char	filename[PATH_MAX + 1];
+	char filename[PATH_MAX + 1];
 
-	strcpy(filename, S9xGetFreezeFilename(999));
-	strcat(filename, ".tmp");
+	strlcpy(filename, S9xGetFreezeFilename(999), sizeof(filename));
+	strlcat(filename, ".tmp", sizeof(filename));
 
 	S9xFreezeGame(filename);
 }
 
 static void MusicBoxForceDefrost (void)
 {
-	char	filename[PATH_MAX + 1];
+	char filename[PATH_MAX + 1];
 
-	strcpy(filename, S9xGetFreezeFilename(999));
-	strcat(filename, ".tmp");
+	strlcpy(filename, S9xGetFreezeFilename(999), sizeof(filename));
+	strlcat(filename, ".tmp", sizeof(filename));
 
 	S9xUnfreezeGame(filename);
 	remove(filename);
@@ -457,21 +453,14 @@ static void SPCPlayDefrost (void)
 void MusicBoxDialog (void)
 {
 	MusicBoxController	*controller;
-	NSAutoreleasePool	*pool;
 
 	if (!cartOpen)
 		return;
 
-	pool = [[NSAutoreleasePool alloc] init];
 	controller = [[MusicBoxController alloc] init];
-	[pool release];
 
 	if (!controller)
 		return;
 
 	[NSApp runModalForWindow: [controller window]];
-
-	pool = [[NSAutoreleasePool alloc] init];
-	[controller release];
-	[pool release];
 }

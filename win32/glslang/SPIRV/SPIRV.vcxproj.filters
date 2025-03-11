@@ -1,31 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\src\SPIRV\GlslangToSpv.cpp" />
-    <ClCompile Include="..\src\SPIRV\InReadableOrder.cpp" />
-    <ClCompile Include="..\src\SPIRV\Logger.cpp" />
-    <ClCompile Include="..\src\SPIRV\SpvBuilder.cpp" />
-    <ClCompile Include="..\src\SPIRV\SpvPostProcess.cpp" />
-    <ClCompile Include="..\src\SPIRV\doc.cpp" />
-    <ClCompile Include="..\src\SPIRV\SpvTools.cpp" />
-    <ClCompile Include="..\src\SPIRV\disassemble.cpp" />
+    <ClCompile Include="..\..\..\external\glslang\SPIRV\GlslangToSpv.cpp" />
+    <ClCompile Include="..\..\..\external\glslang\SPIRV\InReadableOrder.cpp" />
+    <ClCompile Include="..\..\..\external\glslang\SPIRV\Logger.cpp" />
+    <ClCompile Include="..\..\..\external\glslang\SPIRV\SpvBuilder.cpp" />
+    <ClCompile Include="..\..\..\external\glslang\SPIRV\SpvPostProcess.cpp" />
+    <ClCompile Include="..\..\..\external\glslang\SPIRV\doc.cpp" />
+    <ClCompile Include="..\..\..\external\glslang\SPIRV\SpvTools.cpp" />
+    <ClCompile Include="..\..\..\external\glslang\SPIRV\disassemble.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\SPIRV\bitutils.h" />
-    <ClInclude Include="..\src\SPIRV\spirv.hpp" />
-    <ClInclude Include="..\src\SPIRV\GLSL.std.450.h" />
-    <ClInclude Include="..\src\SPIRV\GLSL.ext.EXT.h" />
-    <ClInclude Include="..\src\SPIRV\GLSL.ext.KHR.h" />
-    <ClInclude Include="..\src\SPIRV\GlslangToSpv.h" />
-    <ClInclude Include="..\src\SPIRV\hex_float.h" />
-    <ClInclude Include="..\src\SPIRV\Logger.h" />
-    <ClInclude Include="..\src\SPIRV\SpvBuilder.h" />
-    <ClInclude Include="..\src\SPIRV\spvIR.h" />
-    <ClInclude Include="..\src\SPIRV\doc.h" />
-    <ClInclude Include="..\src\SPIRV\SpvTools.h" />
-    <ClInclude Include="..\src\SPIRV\disassemble.h" />
-    <ClInclude Include="..\src\SPIRV\GLSL.ext.AMD.h" />
-    <ClInclude Include="..\src\SPIRV\GLSL.ext.NV.h" />
+    <ClInclude Include="..\..\..\external\glslang\SPIRV\bitutils.h" />
+    <ClInclude Include="..\..\..\external\glslang\SPIRV\spirv.hpp" />
+    <ClInclude Include="..\..\..\external\glslang\SPIRV\GLSL.std.450.h" />
+    <ClInclude Include="..\..\..\external\glslang\SPIRV\GLSL.ext.EXT.h" />
+    <ClInclude Include="..\..\..\external\glslang\SPIRV\GLSL.ext.KHR.h" />
+    <ClInclude Include="..\..\..\external\glslang\SPIRV\GlslangToSpv.h" />
+    <ClInclude Include="..\..\..\external\glslang\SPIRV\hex_float.h" />
+    <ClInclude Include="..\..\..\external\glslang\SPIRV\Logger.h" />
+    <ClInclude Include="..\..\..\external\glslang\SPIRV\SpvBuilder.h" />
+    <ClInclude Include="..\..\..\external\glslang\SPIRV\spvIR.h" />
+    <ClInclude Include="..\..\..\external\glslang\SPIRV\doc.h" />
+    <ClInclude Include="..\..\..\external\glslang\SPIRV\SpvTools.h" />
+    <ClInclude Include="..\..\..\external\glslang\SPIRV\disassemble.h" />
+    <ClInclude Include="..\..\..\external\glslang\SPIRV\GLSL.ext.AMD.h" />
+    <ClInclude Include="..\..\..\external\glslang\SPIRV\GLSL.ext.NV.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source">
